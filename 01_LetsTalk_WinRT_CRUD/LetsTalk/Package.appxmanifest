@@ -15,8 +15,8 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="LetsTalk.App">
-      <VisualElements DisplayName="Let's Talk" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="Let's Talk is a Windows Azure Mobile Services demo application ." ForegroundText="light" BackgroundColor="#464646">
-        <DefaultTile ShowName="allLogos" />
+      <VisualElements DisplayName="Let's Talk" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="Let's Talk is a Windows Azure Mobile Services demo application ." ForegroundText="light" BackgroundColor="#00A8D9">
+        <DefaultTile ShowName="allLogos" ShortName="Let's Talk" />
         <SplashScreen Image="Assets\SplashScreen.png" />
       </VisualElements>
     </Application>

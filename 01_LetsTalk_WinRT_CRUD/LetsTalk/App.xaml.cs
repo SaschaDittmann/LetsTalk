@@ -35,8 +35,8 @@ namespace LetsTalk
             this.Suspending += OnSuspending;
         }
     
-        public const String MobileServiceUrl = "https://letstalk.azure-mobile.net/";
-        public const String MobileServiceKey = "UHDcQvijvCEtWOxuAjuIpIxhgMCQHp17";
+        public const String MobileServiceUrl = "<enter url here>";
+        public const String MobileServiceKey = "<enter key here>";
 
         public static readonly Uri BaseUri = new Uri("ms-appx:///");
 

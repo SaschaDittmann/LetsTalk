@@ -142,11 +142,23 @@
     <Content Include="Assets\dummy08.png" />
     <Content Include="Assets\dummy09.png" />
     <Content Include="Assets\dummy10.png" />
-    <Content Include="Assets\Logo.png" />
+    <Content Include="Assets\Logo.scale-100.png" />
+    <Content Include="Assets\Logo.scale-140.png" />
+    <Content Include="Assets\Logo.scale-180.png" />
+    <Content Include="Assets\Logo.scale-80.png" />
     <Content Include="Assets\portrait.png" />
-    <Content Include="Assets\SmallLogo.png" />
-    <Content Include="Assets\SplashScreen.png" />
-    <Content Include="Assets\StoreLogo.png" />
+    <Content Include="Assets\SmallLogo.scale-100.png" />
+    <Content Include="Assets\SmallLogo.scale-140.png" />
+    <Content Include="Assets\SmallLogo.scale-180.png" />
+    <Content Include="Assets\SmallLogo.scale-80.png" />
+    <Content Include="Assets\SplashScreen.scale-100.png" />
+    <Content Include="Assets\SplashScreen.scale-140.png" />
+    <Content Include="Assets\SplashScreen.scale-180.png" />
+    <Content Include="Assets\SplashScreen.scale-80.png" />
+    <Content Include="Assets\StoreLogo.scale-100.png" />
+    <Content Include="Assets\StoreLogo.scale-140.png" />
+    <Content Include="Assets\StoreLogo.scale-180.png" />
+    <Content Include="Assets\StoreLogo.scale-80.png" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

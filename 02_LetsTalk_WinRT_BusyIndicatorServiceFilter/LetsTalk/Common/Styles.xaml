@@ -59,7 +59,15 @@
             <TextBlock Grid.Column="1" Grid.Row="1" FontSize="10" Text="{Binding CreatedAt, Converter={StaticResource TimeAgoConverter}}" TextWrapping="NoWrap" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="50,0,8,0"/>
         </Grid>
     </DataTemplate>
-    
+
+    <Style x:Name="ProgressRingStyle"  TargetType="ProgressRing">
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Foreground" Value="{StaticResource AccentColor}" />
+        <Setter Property="Width" Value="100" />
+        <Setter Property="Height" Value="100" />
+    </Style>
+
     <Style x:Key="SmallText" TargetType="TextBlock" >
         <Setter Property="TextWrapping" Value="Wrap" />
         <Setter Property="FontSize" Value="20" />

@@ -1,22 +1,22 @@
 ﻿using System;
+using System.Runtime.Serialization;
 using Microsoft.WindowsAzure.MobileServices;
-using Newtonsoft.Json;
 
 namespace LetsTalk.Model
 {
     /// <summary>
     /// A class used to store messages in Mobile Services
     /// </summary>
-    [DataTable("messages")]
+    [DataTable(Name = "messages")]
     public class Message
     {
-        [JsonProperty("id")]
+        [DataMember(Name = "id")]
         public int Id { get; set; }
 
-        [JsonProperty("body")]
+        [DataMember(Name = "body")]
         public string Body { get; set; }
-
-        [JsonProperty("createdAt")]
+        
+        [DataMember(Name = "createdAt")]
         public DateTime CreatedAt { get; set; }
     }
 }

@@ -15,7 +15,7 @@ namespace LetsTalk.ViewModels
 
         private readonly MobileServiceClient _mobileServiceClient;
         private readonly IMobileServiceTable<Message> _messagesTable;
-        private readonly ObservableCollection<BindableMessage> _messages;
+        private readonly ObservableCollection<Message> _messages;
         private readonly DispatcherTimer _loadMessagesTimer;
 
         public MainPageViewModel()
@@ -30,7 +30,7 @@ namespace LetsTalk.ViewModels
             DeleteMessageCommand = new DelegateCommand(RemoveSelectedMessage, false);
             SendMessageCommand = new DelegateCommand(SendMessage);
 
-            _messages = new ObservableCollection<BindableMessage>();
+            _messages = new ObservableCollection<Message>();
             _loadMessagesTimer = new DispatcherTimer
                 {
                     Interval = TimeSpan.FromSeconds(30),
@@ -39,7 +39,7 @@ namespace LetsTalk.ViewModels
             _loadMessagesTimer.Start();
         }
 
-        public ObservableCollection<BindableMessage> Messages
+        public ObservableCollection<Message> Messages
         {
             get { return _messages; }
         }
@@ -51,8 +51,8 @@ namespace LetsTalk.ViewModels
             set { SetProperty(ref _messageText, value); }
         }
 
-        private BindableMessage _selectedMessage;
-        public BindableMessage SelectedMessage
+        private Message _selectedMessage;
+        public Message SelectedMessage
         {
             get { return _selectedMessage; }
             set
@@ -81,7 +81,7 @@ namespace LetsTalk.ViewModels
 
                 // Perform a simple sync of the existing list using the Ids.
                 var matched = new Queue<Message>();
-                var removals = new Queue<BindableMessage>();
+                var removals = new Queue<Message>();
 
                 foreach (var item in Messages)
                 {
@@ -126,7 +126,7 @@ namespace LetsTalk.ViewModels
                         else
                             break;
                     }
-                    Messages.Insert(pos, new BindableMessage(newMessage));
+                    Messages.Insert(pos, newMessage);
                 }
             }
             catch (Exception ex)
@@ -153,7 +153,7 @@ namespace LetsTalk.ViewModels
                 MessageText = String.Empty;
 
                 await _messagesTable.InsertAsync(message);
-                Messages.Insert(0, new BindableMessage(message));
+                Messages.Insert(0, message);
             }
             catch (Exception ex)
             {
@@ -171,7 +171,7 @@ namespace LetsTalk.ViewModels
             try
             {
                 var dialog = new MessageDialog(
-                    "Do you really want to delete this message:\n" + SelectedMessage.Body + "?",
+                    "Do you really want to delete the message:\n" + SelectedMessage.Body,
                     "Delete Message");
                 dialog.Commands.Add(new UICommand("Yes", null, "Yes"));
                 dialog.Commands.Add(new UICommand("No", null, "No"));
@@ -179,7 +179,7 @@ namespace LetsTalk.ViewModels
                 var result = await dialog.ShowAsync();
                 if (result.Id.ToString() == "Yes")
                 {
-                    await _messagesTable.DeleteAsync(SelectedMessage.OriginalMessage);
+                    await _messagesTable.DeleteAsync(SelectedMessage);
                     Messages.Remove(SelectedMessage);
                 }
             }

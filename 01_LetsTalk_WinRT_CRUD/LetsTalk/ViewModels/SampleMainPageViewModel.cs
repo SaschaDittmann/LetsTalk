@@ -7,13 +7,13 @@ namespace LetsTalk.ViewModels
 {
     public class SampleMainPageViewModel : BindableBase, IMainPageViewModel
     {
-        private readonly ObservableCollection<BindableMessage> _messages;
+        private readonly ObservableCollection<Message> _messages;
 
         public SampleMainPageViewModel()
         {
-            _messages = new ObservableCollection<BindableMessage>();
+            _messages = new ObservableCollection<Message>();
 
-            Messages.Add(new BindableMessage
+            Messages.Add(new Message
                 {
                     Id = 1,
                     Body =
@@ -22,7 +22,7 @@ namespace LetsTalk.ViewModels
                     UserImageUrl = "Assets/dummy01.png",
                     CreatedAt = DateTime.Now.AddDays(-60),
                 });
-            Messages.Add(new BindableMessage
+            Messages.Add(new Message
                 {
                     Id = 2,
                     Body =
@@ -31,7 +31,7 @@ namespace LetsTalk.ViewModels
                     UserImageUrl = "Assets/dummy02.png",
                     CreatedAt = DateTime.Now.AddDays(-30),
                 });
-            Messages.Add(new BindableMessage
+            Messages.Add(new Message
                 {
                     Id = 3,
                     Body =
@@ -40,7 +40,7 @@ namespace LetsTalk.ViewModels
                     UserImageUrl = "Assets/dummy03.png",
                     CreatedAt = DateTime.Now.AddDays(-14),
                 });
-            Messages.Add(new BindableMessage
+            Messages.Add(new Message
                 {
                     Id = 4,
                     Body =
@@ -49,7 +49,7 @@ namespace LetsTalk.ViewModels
                     UserImageUrl = "Assets/dummy04.png",
                     CreatedAt = DateTime.Now.AddDays(-7),
                 });
-            Messages.Add(new BindableMessage
+            Messages.Add(new Message
                 {
                     Id = 5,
                     Body =
@@ -58,7 +58,7 @@ namespace LetsTalk.ViewModels
                     UserImageUrl = "Assets/dummy05.png",
                     CreatedAt = DateTime.Now.AddDays(-1),
                 });
-            Messages.Add(new BindableMessage
+            Messages.Add(new Message
                 {
                     Id = 6,
                     Body =
@@ -67,7 +67,7 @@ namespace LetsTalk.ViewModels
                     UserImageUrl = "Assets/dummy06.png",
                     CreatedAt = DateTime.Now.AddHours(-12),
                 });
-            Messages.Add(new BindableMessage
+            Messages.Add(new Message
                 {
                     Id = 7,
                     Body =
@@ -76,7 +76,7 @@ namespace LetsTalk.ViewModels
                     UserImageUrl = "Assets/dummy07.png",
                     CreatedAt = DateTime.Now.AddHours(-3),
                 });
-            Messages.Add(new BindableMessage
+            Messages.Add(new Message
                 {
                     Id = 8,
                     Body =
@@ -85,7 +85,7 @@ namespace LetsTalk.ViewModels
                     UserImageUrl = "Assets/dummy08.png",
                     CreatedAt = DateTime.Now.AddHours(-1),
                 });
-            Messages.Add(new BindableMessage
+            Messages.Add(new Message
                 {
                     Id = 9,
                     Body =
@@ -94,7 +94,7 @@ namespace LetsTalk.ViewModels
                     UserImageUrl = "Assets/dummy09.png",
                     CreatedAt = DateTime.Now.AddMinutes(-30),
                 });
-            Messages.Add(new BindableMessage
+            Messages.Add(new Message
                 {
                     Id = 10,
                     Body =
@@ -107,7 +107,7 @@ namespace LetsTalk.ViewModels
             MessageText = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed.";
         }
 
-        public ObservableCollection<BindableMessage> Messages
+        public ObservableCollection<Message> Messages
         {
             get { return _messages; }
         }
@@ -119,8 +119,8 @@ namespace LetsTalk.ViewModels
             set { SetProperty(ref _messageText, value); }
         }
 
-        private BindableMessage _selectedMessage;
-        public BindableMessage SelectedMessage
+        private Message _selectedMessage;
+        public Message SelectedMessage
         {
             get { return _selectedMessage; }
             set { SetProperty(ref _selectedMessage, value); }

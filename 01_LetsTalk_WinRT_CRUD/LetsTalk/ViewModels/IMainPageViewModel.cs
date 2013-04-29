@@ -9,9 +9,9 @@ namespace LetsTalk.ViewModels
 {
     public interface IMainPageViewModel
     {
-        ObservableCollection<BindableMessage> Messages { get; }
+        ObservableCollection<Message> Messages { get; }
         String MessageText { get; set; }
-        BindableMessage SelectedMessage { get; set; }
+        Message SelectedMessage { get; set; }
 
         DelegateCommand SendMessageCommand { get; }
         DelegateCommand DeleteMessageCommand { get; }

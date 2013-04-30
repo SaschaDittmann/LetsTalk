@@ -4,5 +4,7 @@ function insert(item, user, request) {
         return;
     }
 
+    item.createdAt = new Date();
+
     request.execute();
 }

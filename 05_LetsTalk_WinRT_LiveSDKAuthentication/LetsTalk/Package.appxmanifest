@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
+  <Identity Name="96a0a972-31d5-45fa-83ca-ad833f346f85" Publisher="CN=ByteSmith" Version="1.0.0.0" />
+  <Properties>
+    <DisplayName>LetsTalk</DisplayName>
+    <PublisherDisplayName>ByteSmith</PublisherDisplayName>
+    <Logo>Assets\StoreLogo.png</Logo>
+  </Properties>
+  <Prerequisites>
+    <OSMinVersion>6.2.1</OSMinVersion>
+    <OSMaxVersionTested>6.2.1</OSMaxVersionTested>
+  </Prerequisites>
+  <Resources>
+    <Resource Language="x-generate" />
+  </Resources>
+  <Applications>
+    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="LetsTalk.App">
+      <VisualElements DisplayName="Let's Talk" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="Let's Talk is a Windows Azure Mobile Services demo application ." ForegroundText="light" BackgroundColor="#00A8D9">
+        <DefaultTile ShowName="allLogos" ShortName="Let's Talk" />
+        <SplashScreen Image="Assets\SplashScreen.png" />
+      </VisualElements>
+    </Application>
+  </Applications>
+  <Capabilities>
+    <Capability Name="internetClient" />
+  </Capabilities>
+</Package>

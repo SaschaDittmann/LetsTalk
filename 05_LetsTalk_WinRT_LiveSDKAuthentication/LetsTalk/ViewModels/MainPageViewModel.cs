@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using LetsTalk.Common;
 using LetsTalk.Model;
+using Microsoft.Live;
 using Microsoft.WindowsAzure.MobileServices;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
@@ -15,6 +16,7 @@ namespace LetsTalk.ViewModels
         private const int MaxMessageCount = 50;
 
         private readonly MobileServiceClient _mobileServiceClient;
+        private readonly LiveAuthClient _liveAuthClient;
         private readonly IMobileServiceTable<Message> _messagesTable;
         private readonly ObservableCollection<Message> _messages;
         private readonly DispatcherTimer _loadMessagesTimer;
@@ -25,6 +27,8 @@ namespace LetsTalk.ViewModels
                 App.MobileServiceUrl,
                 App.MobileServiceKey,
                 new BusyHandler(busy => IsBusy = busy));
+
+            _liveAuthClient = new LiveAuthClient(App.MobileServiceUrl);
 
             _messagesTable = _mobileServiceClient.GetTable<Message>();
 
@@ -238,6 +242,8 @@ namespace LetsTalk.ViewModels
         {
             if (_mobileServiceClient.CurrentUser != null)
                 _mobileServiceClient.Logout();
+            if (_liveAuthClient.Session != null && _liveAuthClient.CanLogout)
+                _liveAuthClient.Logout();
 
             IsAuthenticated = false;
         }
@@ -250,8 +256,18 @@ namespace LetsTalk.ViewModels
             try
             {
                 IsAuthenticated = false;
-                await _mobileServiceClient.LoginAsync(
-                    MobileServiceAuthenticationProvider.MicrosoftAccount);
+                var result = await _liveAuthClient
+                    .LoginAsync(new[] { "wl.signin", "wl.basic" });;
+                if (result != null && result.Session != null
+                    && result.Status == LiveConnectSessionStatus.Connected)
+                {
+                    await _mobileServiceClient.LoginWithMicrosoftAccountAsync(
+                        result.Session.AuthenticationToken);
+                }
+                else
+                {
+                    message = "login unsuccessful";
+                }
             }
             catch (InvalidOperationException)
             {

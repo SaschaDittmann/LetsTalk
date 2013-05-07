@@ -1,0 +1,129 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:common="using:LetsTalk.Common">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="StandardStyles.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <common:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    <common:ReverseBooleanToVisibilityConverter x:Key="ReverseBooleanToVisibilityConverter" />
+    
+    <common:TimeAgoConverter x:Key="TimeAgoConverter"/>
+
+    <SolidColorBrush x:Key="AccentColor" Color="#FF00A8D9"/>
+
+    <DataTemplate x:Name="SpeechBubble">
+        <Grid Height="130">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="30" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="130"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Border Grid.RowSpan="2" Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}" Width="120" Height="120">
+                <Image Source="{Binding UserImage}" Stretch="UniformToFill" AutomationProperties.Name="{Binding UserName}"/>
+            </Border>
+            <Rectangle Grid.Column="1" Fill="{StaticResource AccentColor}" RadiusX="25" RadiusY="25" Margin="0,5,5,0"/>
+            <Path Data="M190,100 L130,130 L155,100" Fill="{StaticResource AccentColor}" HorizontalAlignment="Left" Height="30" Grid.Row="1" Stretch="Fill" UseLayoutRounding="False" VerticalAlignment="Bottom" Width="70" Grid.Column="1" Margin="0,-5,0,5"/>
+            <TextBlock Grid.Column="1" FontSize="16" Text="{Binding Body}" TextWrapping="Wrap" Margin="12,12,17,10"/>
+            <Grid Grid.Column="1" Grid.Row="1" Margin="50,0,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock FontSize="16" Text="{Binding UserName}" TextWrapping="NoWrap" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                <TextBlock Grid.Column="1" FontSize="16" Text="{Binding CreatedAt, Converter={StaticResource TimeAgoConverter}}" TextWrapping="NoWrap" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0"/>
+            </Grid>
+        </Grid>
+    </DataTemplate>
+    
+    <DataTemplate x:Name="SpeechBubbleSnapped">
+        <Grid Height="80">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="15" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Border Grid.RowSpan="2" Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}" Width="70" Height="70">
+                <Image Source="{Binding UserImage}" Stretch="UniformToFill" AutomationProperties.Name="{Binding UserName}"/>
+            </Border>
+            <Rectangle Grid.Column="1" Fill="{StaticResource AccentColor}" RadiusX="8" RadiusY="8" Margin="0,3,3,0"/>
+            <Path Data="M190,100 L130,130 L155,100" Fill="{StaticResource AccentColor}" HorizontalAlignment="Left" Height="15" Grid.Row="1" Stretch="Fill" UseLayoutRounding="False" VerticalAlignment="Bottom" Width="70" Grid.Column="1" Margin="0,-3,0,3"/>
+            <TextBlock Grid.Column="1" FontSize="10" Text="{Binding Body}" TextWrapping="Wrap" Margin="5,5,10,5"/>
+            <TextBlock Grid.Column="1" Grid.Row="1" FontSize="10" Text="{Binding CreatedAt, Converter={StaticResource TimeAgoConverter}}" TextWrapping="NoWrap" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="50,0,8,0"/>
+        </Grid>
+    </DataTemplate>
+
+    <Style x:Name="ProgressRingStyle"  TargetType="ProgressRing">
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Foreground" Value="{StaticResource AccentColor}" />
+        <Setter Property="Width" Value="100" />
+        <Setter Property="Height" Value="100" />
+    </Style>
+
+    <Style x:Key="SmallText" TargetType="TextBlock" >
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="FontFamily" Value="Segoe UI Light" />
+        <Setter Property="FontWeight" Value="Thin" />
+    </Style>
+
+    <Style x:Key="LoginAppBarButtonStyle" TargetType="Button" BasedOn="{StaticResource AppBarButtonStyle}">
+        <Setter Property="AutomationProperties.AutomationId" Value="ShareAppBarButton" />
+        <Setter Property="AutomationProperties.Name" Value="Login" />
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Grid>
+                        <Viewbox Margin="11">
+                            <Path Stretch="Uniform" Fill="#FFFFFFFF" Width="26" Height="26" Margin="0,0,0,0" Data="M7.9807694,58.050023L40.4539,58.050023 47.864614,62.659543 0,62.659543z M15.330997,23.551408C14.210819,23.551408 13.300636,24.461118 13.300636,25.581289 13.300636,26.711225 14.210819,27.621425 15.330997,27.621425 16.451176,27.621425 17.361237,26.711225 17.361237,25.581289 17.361237,24.461118 16.451176,23.551408 15.330997,23.551408z M10.51014,0L37.954694,0C38.664771,0,39.234811,0.57033947,39.234811,1.2700793L39.234811,51.192365C39.234811,51.902849,38.664771,52.472699,37.954694,52.472699L10.51014,52.472699C9.8100743,52.472699,9.2399126,51.902849,9.2399124,51.192365L9.2399124,1.2700793C9.2399126,0.57033947,9.8100743,0,10.51014,0z">
+                                <Path.RenderTransform>
+                                    <TransformGroup>
+                                        <TransformGroup.Children>
+                                            <RotateTransform Angle="0" />
+                                            <ScaleTransform ScaleX="1" ScaleY="1" />
+                                        </TransformGroup.Children>
+                                    </TransformGroup>
+                                </Path.RenderTransform>
+                            </Path>
+                        </Viewbox>
+                    </Grid>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="LogoutAppBarButtonStyle" TargetType="Button" BasedOn="{StaticResource AppBarButtonStyle}">
+        <Setter Property="AutomationProperties.AutomationId" Value="ShareAppBarButton" />
+        <Setter Property="AutomationProperties.Name" Value="Logout" />
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Grid>
+                        <Viewbox Margin="11">
+                            <Path Stretch="Uniform" Fill="#FFFFFFFF" Width="26" Height="26" Margin="0,0,0,0" Data="M30.789947,34.479814L32.089942,35.369634 32.089942,57.365194C32.089942,57.865095,31.689944,58.275011,31.179946,58.275011L25.069963,58.275011 25.069963,56.965276 30.789947,56.965276z M19.245124,28.008594C18.285407,28.008594 17.505574,28.788583 17.505574,29.748497 17.505574,30.708652 18.285407,31.488399 19.245124,31.488399 20.204965,31.488399 20.984674,30.708652 20.984674,29.748497 20.984674,28.788583 20.204965,28.008594 19.245124,28.008594z M40.987151,24.839952L40.987151,28.290458 48.414989,28.290458 48.414989,34.681394 40.987151,34.681394 40.987151,38.141905 31.140018,31.490928z M25.069963,4.6898548L31.179946,4.6898548C31.689944,4.6898548,32.089942,5.0997721,32.089942,5.5996706L32.089942,27.605228 30.789947,28.48505 30.789947,5.9995901 25.069963,5.9995901z M22.854196,0C23.35407,0,23.763999,0.41013552,23.763999,0.91010997L23.763999,61.756887C23.763999,62.256864,23.35407,62.666998,22.854196,62.666998L0.90980371,59.037054C0.40993031,59.037054,-2.206707E-08,58.627165,0,58.127187L0,5.4499199C-2.206707E-08,4.9499451,0.40993031,4.5398094,0.90980371,4.5398094z">
+                                <Path.RenderTransform>
+                                    <TransformGroup>
+                                        <TransformGroup.Children>
+                                            <RotateTransform Angle="0" />
+                                            <ScaleTransform ScaleX="1" ScaleY="1" />
+                                        </TransformGroup.Children>
+                                    </TransformGroup>
+                                </Path.RenderTransform>
+                            </Path>
+                        </Viewbox>
+                    </Grid>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

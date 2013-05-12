@@ -257,7 +257,7 @@ namespace LetsTalk.ViewModels
             {
                 IsAuthenticated = false;
                 var result = await _liveAuthClient
-                    .LoginAsync(new[] { "wl.signin", "wl.basic" });;
+                    .LoginAsync(new[] { "wl.signin", "wl.basic", "wl.emails" });
                 if (result != null && result.Session != null
                     && result.Status == LiveConnectSessionStatus.Connected)
                 {

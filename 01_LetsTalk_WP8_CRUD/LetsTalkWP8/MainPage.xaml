@@ -1,0 +1,78 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="LetsTalkWP8.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:bar="clr-namespace:BindableApplicationBar;assembly=BindableApplicationBar" 
+    mc:Ignorable="d"
+    xmlns:common="clr-namespace:LetsTalkWP8.Common"
+    xmlns:viewModels="clr-namespace:LetsTalkWP8.ViewModel"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    shell:SystemTray.IsVisible="True">
+    <shell:SystemTray.ProgressIndicator>
+        <shell:ProgressIndicator IsIndeterminate="true" x:Name="indicator" IsVisible="{Binding Progressing}" Text="Downloading" />
+    </shell:SystemTray.ProgressIndicator>
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,0" Height="27" VerticalAlignment="Top">
+            <TextBlock Text="Let's Talk WP8" Style="{StaticResource PhoneTextNormalStyle}" Margin="12,0"/>
+        </StackPanel>
+
+        <!--ContentPanel - place additional content here-->
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+        	<Grid.Background>
+        		<ImageBrush ImageSource="/Assets/bg.jpg" Stretch="UniformToFill"/>
+        	</Grid.Background>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <common:LongListSelector x:Name="lls" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="0"
+                                    Margin="0"
+                                    Padding="0,0,0,0"
+                                    ItemsSource="{Binding Messages}"
+                                    ItemTemplate="{StaticResource SpeechBubble}"
+                                    SelectedItem="{Binding SelectedMessage, Mode=TwoWay}" Width="456"
+                                    />
+            <Border 
+            	Grid.Row="1" Background="#D8000000"
+            >
+            	<StackPanel 
+            		x:Name="itemDetail"
+            		Orientation="Vertical" 
+            >
+            		<TextBox x:Name="MessageTextBox" Text="{Binding MessageText, Mode=TwoWay}"  MaxLength="140" TextWrapping="Wrap" FontSize="20" Height="150" />
+            		<Button x:Name="SendButton" Command="{Binding SendMessageCommand}" Content="Send" HorizontalAlignment="Right" Width="169" FontSize="20" Height="72"/>
+
+            	</StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
+    <bar:Bindable.ApplicationBar>
+        <bar:BindableApplicationBar>
+            <bar:BindableApplicationBarButton
+                Text="Löschen"
+                Command="{Binding DeleteMessageCommand}"
+                IsEnabled="{Binding DeleteMessageCommand.IsEnabled}"
+                IconUri="Assets/delete.png" />
+
+            <bar:BindableApplicationBarButton
+                Text="Aktualisieren"
+                Command="{Binding RefreshCommand}" 
+                IsEnabled="{Binding RefreshCommand.IsEnabled}"
+                IconUri="Assets/refresh.png" />
+        </bar:BindableApplicationBar>
+    </bar:Bindable.ApplicationBar>
+
+
+</phone:PhoneApplicationPage>

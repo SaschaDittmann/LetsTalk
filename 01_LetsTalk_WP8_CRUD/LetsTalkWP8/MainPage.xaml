@@ -45,15 +45,12 @@
                                     SelectedItem="{Binding SelectedMessage, Mode=TwoWay}" Width="456"
                                     />
             <Border 
-            	Grid.Row="1" Background="#D8000000"
-            >
+            	Grid.Row="1" Background="#D8000000">
             	<StackPanel 
             		x:Name="itemDetail"
-            		Orientation="Vertical" 
-            >
+            		Orientation="Vertical">
             		<TextBox x:Name="MessageTextBox" Text="{Binding MessageText, Mode=TwoWay}"  MaxLength="140" TextWrapping="Wrap" FontSize="20" Height="150" />
             		<Button x:Name="SendButton" Command="{Binding SendMessageCommand}" Content="Send" HorizontalAlignment="Right" Width="169" FontSize="20" Height="72"/>
-
             	</StackPanel>
             </Border>
         </Grid>
@@ -73,6 +70,4 @@
                 IconUri="Assets/refresh.png" />
         </bar:BindableApplicationBar>
     </bar:Bindable.ApplicationBar>
-
-
 </phone:PhoneApplicationPage>

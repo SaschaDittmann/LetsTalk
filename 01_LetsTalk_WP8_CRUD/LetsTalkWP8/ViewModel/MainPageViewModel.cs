@@ -1,12 +1,9 @@
-﻿using LetsTalkWP8.Common;
-using LetsTalkWP8.Model;
-using Microsoft.WindowsAzure.MobileServices;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using LetsTalkWP8.Common;
+using LetsTalkWP8.Model;
+using Microsoft.WindowsAzure.MobileServices;
 using System.Windows;
 using System.Windows.Threading;
 
@@ -30,9 +27,8 @@ namespace LetsTalkWP8.ViewModel
 
             _messagesTable = _mobileServiceClient.GetTable<Message>();
 
-            RefreshCommand = new DelegateCommand(LoadMessages);
-            DeleteMessageCommand = new DelegateCommand(RemoveSelectedMessage);
-            DeleteMessageCommand.IsEnabled = false;
+            RefreshCommand = new DelegateCommand(LoadMessages,false);
+            DeleteMessageCommand = new DelegateCommand(RemoveSelectedMessage, false);
             SendMessageCommand = new DelegateCommand(SendMessage);
 
             _messages = new ObservableCollection<Message>();

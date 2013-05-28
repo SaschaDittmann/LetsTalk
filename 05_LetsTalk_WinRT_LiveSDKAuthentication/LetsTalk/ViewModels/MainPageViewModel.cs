@@ -256,10 +256,18 @@ namespace LetsTalk.ViewModels
             try
             {
                 IsAuthenticated = false;
-                var result = await _liveAuthClient
-                    .LoginAsync(new[] { "wl.signin", "wl.basic", "wl.emails" });
-                if (result != null && result.Session != null
-                    && result.Status == LiveConnectSessionStatus.Connected)
+
+                var scopes = new[] {"wl.signin", "wl.basic", "wl.emails", "wl.offline_access"};
+
+                // Try to use offline/cached Live Connect session
+                var result = await _liveAuthClient.InitializeAsync(scopes);
+                
+                // If this doesn't work, try regular login
+                if (result.Status != LiveConnectSessionStatus.Connected)
+                    result = await _liveAuthClient.LoginAsync(scopes);
+
+                // Login to Windows Azure Mobile Services using the Live Connect token
+                if (result.Status == LiveConnectSessionStatus.Connected)
                 {
                     await _mobileServiceClient.LoginWithMicrosoftAccountAsync(
                         result.Session.AuthenticationToken);

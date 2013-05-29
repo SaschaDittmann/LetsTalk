@@ -6,6 +6,8 @@ using LetsTalkWP8.Model;
 using Microsoft.WindowsAzure.MobileServices;
 using System.Windows;
 using System.Windows.Threading;
+using System.Threading.Tasks;
+using Microsoft.Live;
 
 namespace LetsTalkWP8.ViewModel
 {
@@ -14,10 +16,12 @@ namespace LetsTalkWP8.ViewModel
         private const int MaxMessageCount = 50;
 
         private readonly MobileServiceClient _mobileServiceClient;
+        private readonly LiveAuthClient _liveAuthClient;
         private readonly IMobileServiceTable<Message> _messagesTable;
         private readonly ObservableCollection<Message> _messages;
         private readonly DispatcherTimer _loadMessagesTimer;
         private bool _progressing = false;
+
 
         public MainPageViewModel()
         {
@@ -25,11 +29,13 @@ namespace LetsTalkWP8.ViewModel
                 App.MobileServiceUrl,
                 App.MobileServiceKey);
 
+            _liveAuthClient = new LiveAuthClient(App.ClientID);
+
             _messagesTable = _mobileServiceClient.GetTable<Message>();
 
             RefreshCommand = new DelegateCommand(LoadMessages,false);
             DeleteMessageCommand = new DelegateCommand(RemoveSelectedMessage, false);
-            SendMessageCommand = new DelegateCommand(SendMessage);
+            SendMessageCommand = new DelegateCommand(SendMessage,false);
 
             _messages = new ObservableCollection<Message>();
             _loadMessagesTimer = new DispatcherTimer
@@ -38,6 +44,18 @@ namespace LetsTalkWP8.ViewModel
             };
             _loadMessagesTimer.Tick += LoadMessagesTimer_Tick;
             _loadMessagesTimer.Start();
+
+            LoginCommand = new DelegateCommand(Login);
+            LogoutCommand = new DelegateCommand(Logout,false);
+        }
+
+        private void EnableLogin(bool enable)
+        {
+            LoginCommand.IsEnabled = enable;
+            LogoutCommand.IsEnabled = !enable;
+            SendMessageCommand.IsEnabled = !enable;
+            DeleteMessageCommand.IsEnabled = SelectedMessage != null && !enable;
+            RefreshCommand.IsEnabled = !enable;
         }
 
         public bool Progressing
@@ -72,6 +90,9 @@ namespace LetsTalkWP8.ViewModel
         public DelegateCommand SendMessageCommand { get; private set; }
         public DelegateCommand DeleteMessageCommand { get; private set; }
         public DelegateCommand RefreshCommand { get; private set; }
+
+        public DelegateCommand LoginCommand { get; private set; }
+        public DelegateCommand LogoutCommand { get; private set; }
 
         private async void LoadMessages()
         {
@@ -201,9 +222,75 @@ namespace LetsTalkWP8.ViewModel
 
         private void LoadMessagesTimer_Tick(object sender, object e)
         {
-            if (RefreshCommand.CanExecute(sender))
+            if (RefreshCommand.CanExecute(sender) && RefreshCommand.IsEnabled)
                 RefreshCommand.Execute();
         }
 
+        private async void Login()
+        {
+            Progressing = true;
+            if (_mobileServiceClient.CurrentUser == null)
+                await Authenticate();
+
+            if (_mobileServiceClient.CurrentUser != null)
+                EnableLogin(false);
+            Progressing = false;
+        }
+
+        private void Logout()
+        {
+            Progressing = true;
+            if (_mobileServiceClient.CurrentUser != null)
+            {
+                _mobileServiceClient.Logout();
+                _liveAuthClient.Logout();
+                Messages.Clear();
+            }
+
+            if (_mobileServiceClient.CurrentUser == null)
+                EnableLogin(true);
+            Progressing = false;
+        }
+
+
+        private async Task Authenticate()
+        {
+            if (_mobileServiceClient.CurrentUser != null) 
+                return;
+
+            var message = String.Empty;
+            try
+            {
+                while (_liveAuthClient.Session == null)
+                {
+                    LiveLoginResult result = await _liveAuthClient.InitializeAsync(App.WLLoginScope);
+                    if (result.Status!= LiveConnectSessionStatus.Connected)
+                    {
+                        result = await _liveAuthClient.LoginAsync(App.WLLoginScope);
+                    }
+                    if (result.Status == LiveConnectSessionStatus.Connected)
+                    {
+                        MobileServiceUser loginResult = await _mobileServiceClient
+                            .LoginWithMicrosoftAccountAsync(result.Session.AuthenticationToken);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Sie müssen sich anmelden!", "Login benötigt", MessageBoxButton.OK);
+                        return;
+                    }
+                }
+
+            }
+            catch (InvalidOperationException)
+            {
+                message = "login unsuccessful";
+            }
+            catch (Exception ex)
+            {
+                message = ex.Message;
+            }
+            if (!String.IsNullOrEmpty(message))
+                MessageBox.Show(message, "Authenticate User",MessageBoxButton.OK);
+        }
     }
 }

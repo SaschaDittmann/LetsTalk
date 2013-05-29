@@ -14,9 +14,9 @@
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
-    shell:SystemTray.IsVisible="True">
+    shell:SystemTray.IsVisible="True" Loaded="PhoneApplicationPage_Loaded">
     <shell:SystemTray.ProgressIndicator>
-        <shell:ProgressIndicator IsIndeterminate="true" x:Name="indicator" IsVisible="{Binding Progressing}" Text="Downloading" />
+        <shell:ProgressIndicator IsIndeterminate="true" x:Name="indicator" IsVisible="{Binding Progressing}" Text="Progressing" />
     </shell:SystemTray.ProgressIndicator>
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
@@ -50,7 +50,10 @@
             		x:Name="itemDetail"
             		Orientation="Vertical">
             		<TextBox x:Name="MessageTextBox" Text="{Binding MessageText, Mode=TwoWay}"  MaxLength="140" TextWrapping="Wrap" FontSize="20" Height="150" />
-            		<Button x:Name="SendButton" Command="{Binding SendMessageCommand}" Content="Send" HorizontalAlignment="Right" Width="169" FontSize="20" Height="72"/>
+            		<Button x:Name="SendButton" 
+                            Command="{Binding SendMessageCommand}"
+                            IsEnabled="{Binding SendMessageCommand.IsEnabled}"
+                            Content="Send" HorizontalAlignment="Right" Width="169" FontSize="20" Height="72"/>
             	</StackPanel>
             </Border>
         </Grid>
@@ -68,6 +71,17 @@
                 Command="{Binding RefreshCommand}" 
                 IsEnabled="{Binding RefreshCommand.IsEnabled}"
                 IconUri="Assets/refresh.png" />
+            <bar:BindableApplicationBar.MenuItems>
+                <bar:BindableApplicationBarMenuItem
+                Text="Login"
+                Command="{Binding LoginCommand}"
+                IsEnabled="{Binding LoginCommand.IsEnabled}" />
+                <bar:BindableApplicationBarMenuItem
+                Text="Logout"
+                Command="{Binding LogoutCommand}"
+                IsEnabled="{Binding LogoutCommand.IsEnabled}" />
+            </bar:BindableApplicationBar.MenuItems>
+
         </bar:BindableApplicationBar>
     </bar:Bindable.ApplicationBar>
 </phone:PhoneApplicationPage>

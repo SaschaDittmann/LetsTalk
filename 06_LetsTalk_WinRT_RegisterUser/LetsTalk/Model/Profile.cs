@@ -43,7 +43,7 @@ namespace LetsTalk.Model
         }
 
         private string _imageUrl;
-        [JsonProperty("ImageUrl")]
+        [JsonProperty("imageUrl")]
         public string ImageUrl
         {
             get { return _imageUrl; }
